@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Food Delivery to Food Culture — Aanya Jain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15100c;
+    --surface:#1d1610;
+    --surface-2:#251c14;
+    --red:#e23744;
+    --red-dim:#a12630;
+    --gold:#e7a33e;
+    --cream:#f3ecdd;
+    --muted:#9c8e7c;
+    --line:rgba(243,236,221,.12);
+    --line-strong:rgba(243,236,221,.22);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:18px; height:1px; background:var(--gold); display:inline-block;}
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;}
+  a{color:var(--gold);}
+  .rule{height:1px; background:var(--line); border:none; margin:0;}
+
+  /* progress bar */
+  #progress{position:fixed; top:0; left:0; height:2px; background:var(--red); width:0%; z-index:100; transition:width .1s linear;}
+
+  /* HERO */
+  header.hero{
+    min-height:92vh;
+    display:flex; flex-direction:column; justify-content:center;
+    position:relative;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(226,55,68,.18), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(231,163,62,.10), transparent 60%);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-top{display:flex; justify-content:space-between; align-items:center; padding:28px 0;}
+  .hero-top .brand{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; color:var(--muted);}
+  h1.title{
+    font-size:clamp(2.6rem, 6vw, 5rem);
+    line-height:1.02;
+    margin:22px 0 24px;
+    color:var(--cream);
+  }
+  h1.title em{
+    font-style:normal; color:var(--red);
+  }
+  .hero-sub{max-width:600px; font-size:1.15rem; color:var(--muted); margin-bottom:34px;}
+  .hero-meta{display:flex; gap:28px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:20px;}
+  .hero-meta strong{color:var(--cream); display:block; font-size:13px; margin-bottom:4px; font-weight:500;}
+  .scroll-cue{position:absolute; bottom:18px; left:28px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); display:flex; align-items:center; gap:8px;}
+  .scroll-cue .dot{width:6px;height:6px;border-radius:50%;background:var(--red); animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.3} 50%{opacity:1}}
+
+  /* SECTION SHELL */
+  section{padding:96px 0;}
+  section.tight{padding:64px 0;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:36px; flex-wrap:wrap;}
+  .section-head h2{font-size:clamp(1.6rem,3.2vw,2.3rem); color:var(--cream);}
+  .num{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
+  p.lede{font-size:1.15rem; color:var(--cream); max-width:680px;}
+  p.body-text{color:var(--muted); max-width:640px; margin-top:14px;}
+  p.body-text strong{color:var(--cream); font-weight:500;}
+  .fade-in{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
+  .fade-in.show{opacity:1; transform:translateY(0);}
+
+  /* OPTIONS GRID */
+  .options{display:grid; grid-template-columns:1fr; gap:14px; margin-top:32px;}
+  .opt{
+    border:1px solid var(--line); border-radius:4px; padding:20px 22px; cursor:pointer;
+    background:var(--surface); transition:border-color .2s, background .2s;
+  }
+  .opt:hover{border-color:var(--line-strong);}
+  .opt-top{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+  .opt-top h4{font-family:'Fraunces',serif; font-weight:500; font-size:1.05rem; color:var(--cream);}
+  .opt-tag{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; padding:3px 9px; border-radius:20px; border:1px solid var(--line-strong); color:var(--muted); white-space:nowrap;}
+  .opt.chosen{border-color:var(--red); background:linear-gradient(180deg, rgba(226,55,68,.08), transparent);}
+  .opt.chosen .opt-tag{background:var(--red); color:var(--cream); border-color:var(--red);}
+  .opt-body{max-height:0; overflow:hidden; transition:max-height .35s ease, margin-top .35s ease; margin-top:0;}
+  .opt.open .opt-body{max-height:200px; margin-top:12px;}
+  .opt-body p{color:var(--muted); font-size:.95rem;}
+  .opt-chevron{font-family:'JetBrains Mono',monospace; color:var(--muted); transition:transform .3s;}
+  .opt.open .opt-chevron{transform:rotate(45deg); color:var(--gold);}
+
+  /* MECHANISM */
+  .mech-grid{display:grid; grid-template-columns:1fr; gap:20px; margin-top:32px;}
+  @media(min-width:720px){.mech-grid{grid-template-columns:repeat(3,1fr);}}
+  .mech-card{background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:22px;}
+  .mech-card .m-eyebrow{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;}
+  .mech-card h4{font-family:'Fraunces',serif; font-weight:500; font-size:1.05rem; margin-bottom:8px; color:var(--cream);}
+  .mech-card p{font-size:.92rem; color:var(--muted);}
+
+  /* PROTOTYPE */
+  .proto-wrap{display:flex; flex-direction:column; align-items:center; gap:22px; margin-top:36px;}
+  .tabs{display:flex; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:30px; padding:5px;}
+  .tab-btn{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.04em; padding:9px 18px; border-radius:24px;
+    background:transparent; border:none; color:var(--muted); cursor:pointer; transition:.2s;
+  }
+  .tab-btn.active{background:var(--red); color:var(--cream);}
+  .phone{
+    width:290px; border-radius:34px; border:8px solid #0c0906; background:#0c0906;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.6), 0 0 0 1px rgba(243,236,221,.06);
+    overflow:hidden;
+  }
+  .phone-screen{background:var(--bg); min-height:480px; padding:18px 16px; position:relative;}
+  .phone-status{display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:18px;}
+  .screen-panel{display:none; animation:fadeIn .4s ease;}
+  .screen-panel.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+  .greet{font-family:'Fraunces',serif; font-size:1.3rem; margin-bottom:14px; color:var(--cream);}
+  .skel{height:10px; background:rgba(243,236,221,.08); border-radius:3px; margin-bottom:8px;}
+  .story-card{background:var(--surface-2); border:1px solid var(--line-strong); border-radius:10px; padding:16px; margin-top:14px;}
+  .story-tag{font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;}
+  .story-card h5{font-family:'Fraunces',serif; font-size:1rem; margin-bottom:8px; color:var(--cream); font-weight:600;}
+  .story-card p{font-size:.82rem; color:var(--muted); margin-bottom:10px;}
+  .story-chips{display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;}
+  .chip{font-family:'JetBrains Mono',monospace; font-size:9px; padding:3px 8px; border:1px solid var(--line-strong); border-radius:20px; color:var(--muted);}
+  .story-link{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--red); font-weight:500;}
+  .proto-caption{font-size:.85rem; color:var(--muted); text-align:center; max-width:340px;}
+  .proto-caption b{color:var(--cream);}
+  .wait-ring{width:120px; height:120px; margin:26px auto 10px; position:relative;}
+  .wait-ring svg{transform:rotate(-90deg);}
+  .wait-ring-label{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
+  .reorder-row{display:flex; gap:10px; align-items:center; background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:12px; margin-top:10px;}
+  .reorder-thumb{width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg, var(--red), var(--gold)); flex-shrink:0;}
+  .reorder-row div p{font-size:.85rem; color:var(--cream); margin-bottom:2px;}
+  .reorder-row div span{font-size:.72rem; color:var(--muted);}
+
+  /* BUSINESS CASE */
+  .biz-grid{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:32px; border-radius:4px; overflow:hidden;}
+  @media(min-width:720px){.biz-grid{grid-template-columns:repeat(2,1fr);}}
+  .biz-card{background:var(--surface); padding:26px;}
+  .biz-card .b-num{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--red); margin-bottom:10px;}
+  .biz-card h4{font-family:'Fraunces',serif; font-size:1.15rem; color:var(--cream); margin-bottom:10px; font-weight:500;}
+  .biz-card p{font-size:.92rem; color:var(--muted);}
+
+  /* IMPACT MODEL */
+  .model-box{background:var(--surface); border:1px solid var(--line-strong); border-radius:8px; padding:32px; margin-top:32px;}
+  .model-flag{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--gold); border:1px solid rgba(231,163,62,.3); background:rgba(231,163,62,.06); padding:8px 14px; border-radius:4px; margin-bottom:26px; display:inline-block;}
+  .slider-row{margin-bottom:24px;}
+  .slider-row label{display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cream); margin-bottom:10px;}
+  .slider-row label span{color:var(--red);}
+  input[type=range]{
+    -webkit-appearance:none; width:100%; height:3px; background:var(--line-strong); border-radius:3px; outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--red); cursor:pointer; border:2px solid var(--cream);}
+  input[type=range]::-moz-range-thumb{width:16px; height:16px; border-radius:50%; background:var(--red); cursor:pointer; border:2px solid var(--cream);}
+  .model-out{display:grid; grid-template-columns:1fr; gap:16px; margin-top:28px; border-top:1px solid var(--line); padding-top:24px;}
+  @media(min-width:600px){.model-out{grid-template-columns:repeat(2,1fr);}}
+  .out-card{background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:18px;}
+  .out-card .out-label{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px;}
+  .out-card .out-value{font-family:'Fraunces',serif; font-size:1.9rem; color:var(--cream); font-weight:600;}
+  .out-card .out-sub{font-size:.78rem; color:var(--muted); margin-top:4px;}
+
+  /* VALIDATION STEPS */
+  .steps{margin-top:32px; border-top:1px solid var(--line);}
+  .step{display:grid; grid-template-columns:50px 1fr; gap:18px; padding:22px 0; border-bottom:1px solid var(--line);}
+  .step .s-num{font-family:'JetBrains Mono',monospace; color:var(--red); font-size:13px;}
+  .step h4{font-family:'Fraunces',serif; font-weight:500; color:var(--cream); margin-bottom:6px;}
+  .step p{color:var(--muted); font-size:.92rem;}
+
+  /* RISKS TABLE */
+  .risk-table{width:100%; border-collapse:collapse; margin-top:32px; font-size:.92rem;}
+  .risk-table th{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); text-align:left; padding:10px 14px; border-bottom:1px solid var(--line-strong);}
+  .risk-table td{padding:16px 14px; border-bottom:1px solid var(--line); color:var(--muted); vertical-align:top;}
+  .risk-table td:first-child{color:var(--cream); font-weight:500; width:28%;}
+  .risk-table td:last-child{color:var(--gold);}
+
+  /* CLOSE */
+  footer{padding:80px 0 60px; text-align:center;}
+  footer h3{font-size:clamp(1.6rem,3.4vw,2.2rem); max-width:640px; margin:0 auto 18px;}
+  footer p.disclaimer{max-width:600px; margin:36px auto 0; font-size:.8rem; color:var(--muted); border-top:1px solid var(--line); padding-top:24px;}
+  footer .contact{margin-top:18px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
+  footer .contact a{color:var(--cream);}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <span class="brand mono">AANYA JAIN — PORTFOLIO CASE</span>
+      <span class="brand mono">01 / 09</span>
+    </div>
+    <div class="eyebrow">Strategy & Product Case — Prepared for Konrad</div>
+    <h1 class="title">From food delivery<br>to food <em>culture.</em></h1>
+    <p class="hero-sub">Zomato's brand is one of the most quoted voices in Indian advertising. Its product isn't. This case makes the argument for closing that gap — the strategic reasoning, the alternatives ruled out, and a working model of the business case.</p>
+    <div class="hero-meta">
+      <div><strong>Prepared by</strong>Aanya Jain</div>
+      <div><strong>For</strong>Associate Consultant, Strategy & Technology</div>
+      <div><strong>Format</strong>Unsolicited case study, not a client submission</div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="dot"></span> Scroll to read the case</div>
+</header>
+
+<section class="tight" id="q">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>The strategic question</h2>
+      <span class="num">Exhibit 01</span>
+    </div>
+    <p class="lede">Not "how do we make ordering faster." Everyone is already racing on that axis.</p>
+    <p class="body-text">Open the Zomato app to actually order, and the wit disappears. The browsing and ordering flow reads like any other delivery app — fast, functional, and completely anonymous. That's not a branding inconsistency; it's a strategic one.</p>
+    <p class="body-text">Zomato's food-delivery business runs on <strong>session frequency and dwell time</strong> — not just order volume. Those two variables determine how much ad inventory the platform can sell, how sticky a subscription like Zomato Gold becomes, and how much growth can come from word-of-mouth instead of paid acquisition. A product with no distinct voice gives people no reason to open it except to transact. Every session stays purely transactional — efficient, but with a hard ceiling on how much value it can create beyond the order itself.</p>
+    <p class="body-text">The real question: <strong>what does Zomato already own that competitors can't quickly copy — and is it anywhere in the product?</strong></p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="options">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>Options on the table</h2>
+      <span class="num">Exhibit 02</span>
+    </div>
+    <p class="lede">Four ways to close the gap. Three get ruled out on strategic grounds, not taste.</p>
+    <div class="options" id="optList"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="mechanism">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>The idea, and why it should work</h2>
+      <span class="num">Exhibit 03</span>
+    </div>
+    <p class="lede">The Food Story Layer: a thin content layer woven into moments people already pass through — browsing, waiting, reordering. No new tab, no new habit.</p>
+    <div class="mech-grid">
+      <div class="mech-card">
+        <div class="m-eyebrow">Waiting</div>
+        <h4>Occupied time feels shorter</h4>
+        <p>It's a well-documented pattern in service design — from airport baggage claims to theme-park queues — that idle waiting feels longer and worse than occupied waiting. A delivery-wait story converts dead time, and the anxiety that fills it, into a small moment of engagement.</p>
+      </div>
+      <div class="mech-card">
+        <div class="m-eyebrow">Browsing</div>
+        <h4>Context reduces choice paralysis</h4>
+        <p>A two-line story next to a regional dish gives people a reason to try something outside their usual order — nudging basket diversity, not just basket size.</p>
+      </div>
+      <div class="mech-card">
+        <div class="m-eyebrow">Reordering</div>
+        <h4>Repetition becomes identity</h4>
+        <p>A repeat order backed by a story stops being a habit and starts being a small act of taste — the kind of fact people forward in a group chat. That's an organic distribution loop, not just a retention one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="proto">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>See it in the product</h2>
+      <span class="num">Exhibit 04</span>
+    </div>
+    <p class="lede">The same layer, surfaced differently across three moments. Try each tab.</p>
+    <div class="proto-wrap">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="browse">Browse</button>
+        <button class="tab-btn" data-tab="wait">Wait</button>
+        <button class="tab-btn" data-tab="reorder">Reorder</button>
+      </div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-status"><span>12:41</span><span>●●●</span></div>
+
+          <div class="screen-panel active" id="panel-browse">
+            <div class="greet">Good evening.</div>
+            <div class="skel" style="width:60%"></div>
+            <div class="skel" style="width:40%"></div>
+            <div class="story-card">
+              <div class="story-tag">Today's food story</div>
+              <h5>Why Hyderabadi biryani is cooked, not assembled</h5>
+              <p>The dum method seals in steam for over an hour, layer by layer, until rice and meat finish cooking together.</p>
+              <div class="story-chips"><span class="chip">Dum Style</span><span class="chip">Hyderabad</span></div>
+              <div class="story-link">Read the story →</div>
+            </div>
+          </div>
+
+          <div class="screen-panel" id="panel-wait">
+            <div class="greet" style="font-size:1.05rem;">Your order is on its way</div>
+            <div class="wait-ring">
+              <svg width="120" height="120"><circle cx="60" cy="60" r="52" stroke="rgba(243,236,221,.1)" stroke-width="6" fill="none"/><circle cx="60" cy="60" r="52" stroke="#e23744" stroke-width="6" fill="none" stroke-dasharray="326" stroke-dashoffset="110" stroke-linecap="round"/></svg>
+              <div class="wait-ring-label">8 min left</div>
+            </div>
+            <div class="story-card">
+              <div class="story-tag">While you wait</div>
+              <h5>The samosa's filling used to be meat, not potato</h5>
+              <p>Potato only became standard after it spread through South Asia in the 18th–19th century.</p>
+              <div class="story-link">One more story →</div>
+            </div>
+          </div>
+
+          <div class="screen-panel" id="panel-reorder">
+            <div class="greet" style="font-size:1.05rem;">Order again</div>
+            <div class="reorder-row">
+              <div class="reorder-thumb"></div>
+              <div><p>Hyderabadi Biryani, x1</p><span>Ordered 6 times · your most-repeated dish</span></div>
+            </div>
+            <div class="story-card">
+              <div class="story-tag">You keep coming back to this</div>
+              <h5>You've ordered dum biryani 6 times</h5>
+              <p>That's more than any other dish this year — a taste for slow-cooked, layered flavor over quick-fried food.</p>
+              <div class="story-link">Reorder →</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <p class="proto-caption">Same content system, three contexts — <b>surfaced during a moment people already pass through</b>, never a destination of its own.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="biz">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>The business case</h2>
+      <span class="num">Exhibit 05</span>
+    </div>
+    <p class="lede">Zomato's revenue mix runs on more than order volume — commission and delivery fees sit alongside advertising and subscription revenue, and both of those scale with engagement, not just transactions.</p>
+    <div class="biz-grid">
+      <div class="biz-card">
+        <div class="b-num">01 — Ad inventory</div>
+        <h4>More sessions, more inventory</h4>
+        <p>Advertising is a high-margin, engagement-driven line in Zomato's revenue mix. Non-transactional opens — people checking the app between orders — are additional ad-eligible sessions the story layer is designed to create.</p>
+      </div>
+      <div class="biz-card">
+        <div class="b-num">02 — Subscription retention</div>
+        <h4>A reason to keep Gold, beyond the discount</h4>
+        <p>Subscription products churn when the only value is price. A layer that makes the app feel worth opening reinforces the habit a subscription depends on.</p>
+      </div>
+      <div class="biz-card">
+        <div class="b-num">03 — Acquisition cost</div>
+        <h4>Shareable facts are a free distribution channel</h4>
+        <p>A two-line, forwardable food fact costs nothing to distribute and travels through group chats and social screenshots — the same channel Zomato's marketing already wins on, now generated by the product itself.</p>
+      </div>
+      <div class="biz-card">
+        <div class="b-num">04 — Brand coherence</div>
+        <h4>One less gap for marketing to paper over</h4>
+        <p>When the product doesn't sound like the brand, marketing has to work harder to carry the whole personality alone. Closing that gap makes every marketing rupee more efficient.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="model">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>Modeling the impact</h2>
+      <span class="num">Exhibit 06</span>
+    </div>
+    <p class="lede">A simple, transparent model — not a forecast. It exists to show the reasoning, not to claim Zomato's real numbers.</p>
+    <div class="model-box">
+      <span class="model-flag">⚠ Illustrative model for demonstrating reasoning — not Zomato's actual data</span>
+
+      <div class="slider-row">
+        <label>Assumed non-transactional opens per active user, per week (baseline) <span id="baseVal">1.5</span></label>
+        <input type="range" id="baseSlider" min="0.5" max="4" step="0.1" value="1.5">
+      </div>
+      <div class="slider-row">
+        <label>Assumed lift from the story layer <span id="liftVal">18%</span></label>
+        <input type="range" id="liftSlider" min="0" max="50" step="1" value="18">
+      </div>
+
+      <div class="model-out">
+        <div class="out-card">
+          <div class="out-label">Added opens / user / week</div>
+          <div class="out-value" id="outOpens">0.27</div>
+          <div class="out-sub">Extra ad-eligible sessions created per user</div>
+        </div>
+        <div class="out-card">
+          <div class="out-label">Added opens / user / year</div>
+          <div class="out-value" id="outYear">14</div>
+          <div class="out-sub">Compounding across 52 weeks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="validate">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>How we'd validate it</h2>
+      <span class="num">Exhibit 07</span>
+    </div>
+    <p class="lede">Before this ships broadly, it should survive a real test — not just a good pitch.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="s-num">01</div>
+        <div><h4>Define the leading indicators</h4><p>Story open rate, time-in-app during delivery wait, non-transactional opens per week, and reorder rate on dishes with stories attached.</p></div>
+      </div>
+      <div class="step">
+        <div class="s-num">02</div>
+        <div><h4>Run a 4–6 week A/B test</h4><p>Treatment cohort sees the story layer across browse, wait, and reorder; control sees the current experience. Primary metric: sessions per active user per week.</p></div>
+      </div>
+      <div class="step">
+        <div class="s-num">03</div>
+        <div><h4>Set a kill criterion up front</h4><p>If the treatment cohort shows no lift in sessions or reorder rate after six weeks, the layer gets cut before it becomes permanent surface area to maintain.</p></div>
+      </div>
+      <div class="step">
+        <div class="s-num">04</div>
+        <div><h4>Check for cannibalization</h4><p>Confirm the layer isn't just moving attention from checkout — order completion rate and time-to-order need to hold steady.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="risks">
+  <div class="wrap fade-in">
+    <div class="section-head">
+      <h2>Risks, honestly</h2>
+      <span class="num">Exhibit 08</span>
+    </div>
+    <table class="risk-table">
+      <tr><th>Risk</th><th>Why it matters</th><th>Mitigation</th></tr>
+      <tr><td>Content ops at scale</td><td>Good food writing is slow; a stale or repetitive feed kills the idea faster than never shipping it.</td><td>Start with a small rotating regional calendar, AI-assisted drafting with editorial review, and restaurant-partner submissions over time.</td></tr>
+      <tr><td>Feels gimmicky</td><td>If it interrupts the order flow, it becomes friction instead of delight.</td><td>Fully dismissible, never blocking checkout, and placement tested against order-completion rate before wider rollout.</td></tr>
+      <tr><td>Content fatigue</td><td>The same handful of facts shown to power users will stop landing within weeks.</td><td>Seasonal and regional rotation, plus frequency capping per user so no story repeats too often.</td></tr>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <h3>The product should sound like the brand people already know from outside it.</h3>
+    <p class="disclaimer">This is an unsolicited concept, not a submission to Zomato, and no confidential or proprietary information was used to develop it. The business-case figures in Exhibit 06 are an illustrative model built to demonstrate reasoning, not real Zomato data. Prepared by Aanya Jain to show how I think through a strategy-and-design problem, in the spirit of Konrad's own client work.</p>
+    <p class="contact">Aanya Jain · <a href="mailto:aanyajain6504@gmail.com">aanyajain6504@gmail.com</a> · <a href="https://linkedin.com/in/aanyajain060504">linkedin.com/in/aanyajain060504</a></p>
+  </div>
+</footer>
+
+<script>
+  // progress bar
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = pct + '%';
+  });
+
+  // fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+  }, {threshold:0.12});
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // options data + accordion
+  const options = [
+    {tag:'Ruled out', title:'Loyalty & rewards points', chosen:false,
+     body:'Proven lever, but commoditized — most competitors already run one. It buys short-term frequency, not a distinct identity.'},
+    {tag:'Ruled out', title:'Smarter personalization & recommendations', chosen:false,
+     body:'Real value, but table stakes now, not a differentiator. It optimizes the existing experience rather than giving people a new reason to stay.'},
+    {tag:'Ruled out', title:'Standalone content hub or magazine tab', chosen:false,
+     body:'Tempting, but it asks people to build a new habit and compete for attention against the core job of ordering. Content products live or die on a dedicated audience Zomato hasn\'t built.'},
+    {tag:'Chosen', title:'The Food Story Layer', chosen:true,
+     body:'The only option that uses an asset Zomato already owns — its voice — inside behavior people already have, with no new habit required.'}
+  ];
+  const optList = document.getElementById('optList');
+  options.forEach((o,i) => {
+    const div = document.createElement('div');
+    div.className = 'opt' + (o.chosen ? ' chosen' : '');
+    div.innerHTML = `
+      <div class="opt-top">
+        <h4>${o.title}</h4>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="opt-tag">${o.tag}</span>
+          <span class="opt-chevron">+</span>
+        </div>
+      </div>
+      <div class="opt-body"><p>${o.body}</p></div>
+    `;
+    div.addEventListener('click', () => div.classList.toggle('open'));
+    optList.appendChild(div);
+  });
+  optList.children[3].classList.add('open');
+
+  // phone tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.screen-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // impact model
+  const baseSlider = document.getElementById('baseSlider');
+  const liftSlider = document.getElementById('liftSlider');
+  const baseVal = document.getElementById('baseVal');
+  const liftVal = document.getElementById('liftVal');
+  const outOpens = document.getElementById('outOpens');
+  const outYear = document.getElementById('outYear');
+
+  function updateModel(){
+    const base = parseFloat(baseSlider.value);
+    const lift = parseFloat(liftSlider.value);
+    baseVal.textContent = base.toFixed(1);
+    liftVal.textContent = lift + '%';
+    const added = base * (lift/100);
+    outOpens.textContent = added.toFixed(2);
+    outYear.textContent = Math.round(added * 52);
+  }
+  baseSlider.addEventListener('input', updateModel);
+  liftSlider.addEventListener('input', updateModel);
+  updateModel();
+</script>
+
+</body>
+</html>
